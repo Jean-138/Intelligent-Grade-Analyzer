@@ -1,14 +1,17 @@
 # import numpy as np
 import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
 
 # notas = np.array([7,8,5,10])#transforma lista em estrutura Numpy
 
+df = pd.read_csv("students.csv")
 
-dados =  { "Student": ["Alice", "Bob", "Carol", "David"],
-            "Grade": [7, 8, 5, 10]
-}
 
-df = pd.DataFrame(dados)
+# dados =  { "Student": ["Alice", "Bob", "Carol", "David"],
+#             "Grade": [7, 8, 5, 10]
+# }
+
+# df = pd.DataFrame(dados)
 
 status_list = []
 
@@ -21,6 +24,21 @@ for nota in df["Grade"]:
         status_list.append("Reproved")
 
 df["Status"] = status_list
+
+
+
+X = df[["Grade"]]
+y = df["Status"]
+
+model = KNeighborsClassifier()
+
+model.fit(X, y)
+
+prediction = model.predict([[9]])
+
+print(prediction)
+
+
 print(df)
 
 
