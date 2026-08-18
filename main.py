@@ -1,21 +1,11 @@
-# import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
-
-# notas = np.array([7,8,5,10])#transforma lista em estrutura Numpy
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 df = pd.read_csv("students.csv")
 
-
-# dados =  { "Student": ["Alice", "Bob", "Carol", "David"],
-#             "Grade": [7, 8, 5, 10]
-# }
-
-# df = pd.DataFrame(dados)
-
 status_list = []
-
-
 
 for nota in df["Grade"]:
     if nota >= 7:
@@ -25,48 +15,19 @@ for nota in df["Grade"]:
 
 df["Status"] = status_list
 
-
-
 X = df[["Grade"]]
 y = df["Status"]
 
-model = KNeighborsClassifier()
+X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-model.fit(X, y)
+model = KNeighborsClassifier(n_neighbors=3)
 
-prediction = model.predict([[9]])
+model.fit(X_train, y_train)
 
-print(prediction)
+prediction = model.predict(X_test)
 
+accuracy = accuracy_score(y_test, prediction)
 
-print(df)
-
-
-# media = df["Grade"].mean()
-
-
-# media = np.mean(notas)
-# maior = np.max(notas)
-# menor = np.min(notas)
-
-media = df["Grade"].mean()
-maior = df["Grade"].max()
-menor = df["Grade"].min()
-
-# if media >= 7:
-#     status = "aprovado"
-# else:
-#     status = "reprovado"
-
-# print("Notas:", notas)
-# print("Média:", media)
-# print("Maior nota:", maior)
-# print("Menor nota:", menor)
-# print("Status:", status)
-
-
-
-
-
-print(media)
-
+print("Accuracy:", accuracy)
+print("Prediction:", prediction)
+print("Actual:", y_test.values)
